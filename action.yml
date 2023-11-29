@@ -5,6 +5,10 @@ inputs:
     description: 'if true, then install and use latex'
     required: false
     default: 'false'
+  use-xetex-and-metapost:
+    description: 'if true, then also install xetex and metapost'
+    required: false
+    default: 'false'
 runs:
   using: "composite"
   steps:
@@ -13,7 +17,10 @@ runs:
       run: |
         if [ ${{ inputs.use-latex }} == 'true' ]; then
           sudo apt-get update
-          sudo apt-get install --no-install-recommends texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-xetex texlive-metapost
+          sudo apt-get install --no-install-recommends texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended
+        fi
+        if [ ${{ inputs.use-xetex-and-metapost }} == 'true' ]; then
+          sudo apt-get install --no-install-recommends texlive-xetex texlive-metapost
         fi
 
     - name: "Compile documentation"
